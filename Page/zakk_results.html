@@ -5,328 +5,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Results</title>
     <style>
-        /* Overall page styling */
+        /* General styling */
         body {
             margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f4f4; /* Light background */
-            color: #333; /* Text color */
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
             display: flex;
             flex-direction: column;
             align-items: center;
             padding: 20px;
         }
 
-        /* Header styling */
         header {
-            width: 100%; /* Full width */
-            background-color: #800000; /* Maroon background */
-            color: white; /* White text */
+            width: 100%;
+            background-color: #800000; /* Maroon */
+            color: white;
             text-align: center;
-            padding: 30px 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
-            font-size: 3em; /* Font size */
+            padding: 20px;
+            font-size: 2em;
             font-weight: bold;
-            border-bottom: 5px solid #660000; /* Border below header */
-            margin-bottom: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-bottom: 5px solid #660000;
         }
 
-        /* Button container for vertical alignment */
         .button-container {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            gap: 20px; /* Space between buttons */
+            gap: 20px;
+            margin-top: 30px;
             width: 100%;
             max-width: 300px;
         }
 
-        /* General button styling */
         .btn {
-            width: 100%; /* Button width */
-            padding: 15px; /* Button padding */
-            font-size: 1.2em; /* Font size */
-            font-weight: bold; /* Bold text */
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
             text-align: center;
-            color: white; /* Text color */
-            background-color: #007BFF; /* Default button color (blue) */
-            border: none; /* No border */
-            border-radius: 8px; /* Rounded corners */
-            cursor: pointer; /* Pointer on hover */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-            transition: all 0.3s ease; /* Smooth hover transition */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        /* Hover effect for buttons */
         .btn:hover {
-            background-color: #0056b3; /* Darker blue on hover */
-            transform: scale(1.05); /* Slightly larger */
+            opacity: 0.9;
         }
 
-        /* Active button effect */
-        .btn:active {
-            background-color: #004080; /* Even darker blue on click */
-            transform: scale(0.95); /* Slightly smaller */
-        }
-
-        /* Customize individual buttons */
         .btn.pictures {
             background-color: #28a745; /* Green */
-        }
-
-        .btn.pictures:hover {
-            background-color: #218838; /* Darker green on hover */
         }
 
         .btn.videos {
             background-color: #17a2b8; /* Cyan */
         }
 
-        .btn.videos:hover {
-            background-color: #138496; /* Darker cyan on hover */
-        }
-
-        .btn.policy {
+        .btn.policies {
             background-color: #ffc107; /* Yellow */
             color: #333; /* Darker text for yellow */
-        }
-
-        .btn.policy:hover {
-            background-color: #e0a800; /* Darker yellow on hover */
         }
 
         .btn.location {
             background-color: #dc3545; /* Red */
         }
-
-        .btn.location:hover {
-            background-color: #c82333; /* Darker red on hover */
-        }
-
-        /* Sections styling */
-        .section {
-            width: 100%;
-            max-width: 800px;
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-top: 30px;
-            display: none; /* Hidden by default */
-        }
-
-        /* Dynamic header for sections */
-        .section-header {
-            font-size: 2em;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #ddd;
-        }
-
-        /* Pictures Gallery */
-        .pictures-gallery {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            justify-content: center;
-        }
-
-        .pictures-gallery img {
-            width: 150px;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .pictures-gallery img:hover {
-            transform: scale(1.05);
-        }
-
-        /* Modal for viewing images */
-        .modal {
-            display: none; /* Hidden by default */
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.8); /* Black background with opacity */
-        }
-
-        .modal-content {
-            margin: 10% auto;
-            display: block;
-            width: 80%;
-            max-width: 700px;
-        }
-
-        .close {
-            position: absolute;
-            top: 50px;
-            right: 70px;
-            color: white;
-            font-size: 40px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        /* Policy List */
-        .policy-list {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .policy-list li {
-            margin: 10px 0;
-        }
-
-        .policy-list a {
-            text-decoration: none;
-            color: #007BFF;
-            font-size: 1.1em;
-            transition: color 0.3s;
-        }
-
-        .policy-list a:hover {
-            color: #0056b3;
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 600px) {
-            .pictures-gallery img {
-                width: 100px;
-                height: 100px;
-            }
-
-            .section-header {
-                font-size: 1.5em;
-            }
-
-            .btn {
-                font-size: 1em;
-                padding: 10px;
-            }
-        }
     </style>
 </head>
 <body>
-    <!-- Header Section -->
-    <header>
-        RESULTS
-    </header>
+    <header>RESULTS</header>
 
-    <!-- Button Section -->
     <div class="button-container">
-        <button class="btn pictures" onclick="showSection('pictures')">Pictures</button>
-        <button class="btn videos" onclick="alert('Videos feature is under construction.')">Videos</button>
-        <button class="btn policy" onclick="showSection('policy')">Policy And Procedure</button>
-        <button class="btn location" onclick="alert('Location feature is under construction.')">Location</button>
+        <button class="btn pictures" onclick="location.href='pictures.html'">Pictures</button>
+        <button class="btn videos" onclick="location.href='videos.html'">Videos</button>
+        <button class="btn policies" onclick="location.href='policies.html'">Policies and Procedures</button>
+        <button class="btn location" onclick="location.href='location.html'">Location</button>
     </div>
-
-    <!-- Pictures Section -->
-    <div id="pictures" class="section">
-        <div class="section-header" style="color: #28a745;">Pictures</div>
-        <div class="pictures-gallery" id="picturesGallery">
-            <!-- Images will be loaded here -->
-        </div>
-    </div>
-
-    <!-- Policy And Procedure Section -->
-    <div id="policy" class="section">
-        <div class="section-header" style="color: #ffc107;">Policy And Procedure</div>
-        <ul class="policy-list" id="policyList">
-            <!-- PDF links will be loaded here -->
-        </ul>
-    </div>
-
-    <!-- Modal for Image Viewing -->
-    <div id="imageModal" class="modal">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <img class="modal-content" id="modalImage">
-    </div>
-<script>
-    // Function to show a specific section and hide others
-    function showSection(sectionId) {
-        // Hide all sections
-        const sections = document.querySelectorAll('.section');
-        sections.forEach(section => {
-            section.style.display = 'none';
-        });
-
-        // Show the selected section
-        const selectedSection = document.getElementById(sectionId);
-        if (selectedSection) {
-            selectedSection.style.display = 'block';
-
-            // Load content dynamically if not already loaded
-            if (sectionId === 'pictures' && !selectedSection.dataset.loaded) {
-                loadPictures();
-            }
-            if (sectionId === 'policy' && !selectedSection.dataset.loaded) {
-                loadPolicies();
-            }
-        }
-    }
-
-    // Function to fetch file list dynamically from GitHub
-    async function fetchFileList(folderPath, fileType) {
-        const apiUrl = `https://api.github.com/repos/concussed8/Nurse_Resource_App/contents/${folderPath}`;
-        try {
-            const response = await fetch(apiUrl);
-            const data = await response.json();
-
-            // Filter files by type (e.g., images or PDFs)
-            return data
-                .filter(file => file.type === 'file' && file.name.endsWith(fileType))
-                .map(file => file.name);
-        } catch (error) {
-            console.error(`Error fetching files from ${folderPath}:`, error);
-            return [];
-        }
-    }
-
-    // Load pictures dynamically
-    async function loadPictures() {
-        const gallery = document.getElementById('picturesGallery');
-        const folderPath = 'Page/images'; // GitHub directory for images
-        const imageFiles = await fetchFileList(folderPath, '.jpg'); // Fetch .jpg files
-        const baseURL = 'https://concussed8.github.io/Nurse_Resource_App/Page/Images/';
-
-        imageFiles.forEach(file => {
-            const img = document.createElement('img');
-            img.src = baseURL + file;
-            img.alt = file;
-            img.onclick = () => openModal(baseURL + file);
-            gallery.appendChild(img);
-        });
-
-        document.getElementById('pictures').dataset.loaded = 'true';
-    }
-
-    // Load policies dynamically
-    async function loadPolicies() {
-        const policyList = document.getElementById('policyList');
-        const folderPath = 'Page/pdfs'; // GitHub directory for PDFs
-        const pdfFiles = await fetchFileList(folderPath, '.pdf'); // Fetch .pdf files
-        const baseURL = 'https://concussed8.github.io/Nurse_Resource_App/Page/PDF/';
-
-        pdfFiles.forEach(file => {
-            const li = document.createElement('li');
-            const link = document.createElement('a');
-            link.href = baseURL + file;
-            link.textContent = file.replace('.pdf', '').replace(/_/g, ' ');
-            link.target = '_blank'; // Open in new tab
-            li.appendChild(link);
-            policyList.appendChild(li);
-        });
-
-        document.getElementById('policy').dataset.loaded = 'true';
-    }
-</script>
-
 </body>
 </html>
