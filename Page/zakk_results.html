@@ -248,112 +248,85 @@
         <span class="close" onclick="closeModal()">&times;</span>
         <img class="modal-content" id="modalImage">
     </div>
-
-    <script>
-        // Function to show a specific section and hide others
-        function showSection(sectionId) {
-            // Hide all sections
-            const sections = document.querySelectorAll('.section');
-            sections.forEach(section => {
-                section.style.display = 'none';
-            });
-
-            // Show the selected section
-            const selectedSection = document.getElementById(sectionId);
-            if (selectedSection) {
-                selectedSection.style.display = 'block';
-                // Load content dynamically if not already loaded
-                if (sectionId === 'pictures' && !selectedSection.dataset.loaded) {
-                    loadPictures();
-                }
-                if (sectionId === 'policy' && !selectedSection.dataset.loaded) {
-                    loadPolicies();
-                }
-            }
-        }
-
-        // Function to load pictures from GitHub
-        function loadPictures() {
-            const gallery = document.getElementById('picturesGallery');
-            // List of image file names in the GitHub images folder
-            const imageFiles = [
-                'image1.jpg',
-                'image2.png',
-                'image3.jpg',
-                // Add more image file names here
-            ];
-
-            // Base URL for images (GitHub Pages)
-            const baseURL = 'https://concussed8.github.io/Nurse_Resource_App/Page/images/';
-
-            imageFiles.forEach(file => {
-                const img = document.createElement('img');
-                img.src = baseURL + file;
-                img.alt = file;
-                img.onclick = () => openModal(baseURL + file);
-                gallery.appendChild(img);
-            });
-
-            // Mark as loaded to prevent reloading
-            document.getElementById('pictures').dataset.loaded = 'true';
-        }
-
-        // Function to load policies from GitHub
-        function loadPolicies() {
-            const policyList = document.getElementById('policyList');
-            // List of PDF file names in the GitHub pdfs folder
-            const pdfFiles = [
-                'policy1.pdf',
-                'policy2.pdf',
-                'procedure1.pdf',
-                // Add more PDF file names here
-            ];
-
-            // Base URL for PDFs (GitHub Pages)
-            const baseURL = 'https://concussed8.github.io/Nurse_Resource_App/Page/pdfs/';
-
-            pdfFiles.forEach(file => {
-                const li = document.createElement('li');
-                const link = document.createElement('a');
-                link.href = baseURL + file;
-                link.textContent = file.replace('.pdf', '').replace(/_/g, ' ');
-                link.target = '_blank'; // Open in new tab
-                li.appendChild(link);
-                policyList.appendChild(li);
-            });
-
-            // Mark as loaded to prevent reloading
-            document.getElementById('policy').dataset.loaded = 'true';
-        }
-
-        // Modal functionality
-        function openModal(imageSrc) {
-            const modal = document.getElementById('imageModal');
-            const modalImg = document.getElementById('modalImage');
-            modal.style.display = 'block';
-            modalImg.src = imageSrc;
-        }
-
-        function closeModal() {
-            const modal = document.getElementById('imageModal');
-            modal.style.display = 'none';
-        }
-
-        // Close modal when clicking outside the image
-        window.onclick = function(event) {
-            const modal = document.getElementById('imageModal');
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-
-        // Initial load: hide all sections
-        document.addEventListener('DOMContentLoaded', () => {
-            const sections = document.querySelectorAll('.section');
-            sections.forEach(section => {
-                section.style.display = 'none';
-            });
+<script>
+    // Function to show a specific section and hide others
+    function showSection(sectionId) {
+        // Hide all sections
+        const sections = document.querySelectorAll('.section');
+        sections.forEach(section => {
+            section.style.display = 'none';
         });
-    </script>
+
+        // Show the selected section
+        const selectedSection = document.getElementById(sectionId);
+        if (selectedSection) {
+            selectedSection.style.display = 'block';
+
+            // Load content dynamically if not already loaded
+            if (sectionId === 'pictures' && !selectedSection.dataset.loaded) {
+                loadPictures();
+            }
+            if (sectionId === 'policy' && !selectedSection.dataset.loaded) {
+                loadPolicies();
+            }
+        }
+    }
+
+    // Function to fetch file list dynamically from GitHub
+    async function fetchFileList(folderPath, fileType) {
+        const apiUrl = `https://api.github.com/repos/concussed8/Nurse_Resource_App/contents/${folderPath}`;
+        try {
+            const response = await fetch(apiUrl);
+            const data = await response.json();
+
+            // Filter files by type (e.g., images or PDFs)
+            return data
+                .filter(file => file.type === 'file' && file.name.endsWith(fileType))
+                .map(file => file.name);
+        } catch (error) {
+            console.error(`Error fetching files from ${folderPath}:`, error);
+            return [];
+        }
+    }
+
+    // Load pictures dynamically
+    async function loadPictures() {
+        const gallery = document.getElementById('picturesGallery');
+        const folderPath = 'Page/images'; // GitHub directory for images
+        const imageFiles = await fetchFileList(folderPath, '.jpg'); // Fetch .jpg files
+        const baseURL = 'https://concussed8.github.io/Nurse_Resource_App/Page/images/';
+
+        imageFiles.forEach(file => {
+            const img = document.createElement('img');
+            img.src = baseURL + file;
+            img.alt = file;
+            img.onclick = () => openModal(baseURL + file);
+            gallery.appendChild(img);
+        });
+
+        document.getElementById('pictures').dataset.loaded = 'true';
+    }
+
+    // Load policies dynamically
+    async function loadPolicies() {
+        const policyList = document.getElementById('policyList');
+        const folderPath = 'Page/pdfs'; // GitHub directory for PDFs
+        const pdfFiles = await fetchFileList(folderPath, '.pdf'); // Fetch .pdf files
+        const baseURL = 'https://concussed8.github.io/Nurse_Resource_App/Page/pdfs/';
+
+        pdfFiles.forEach(file => {
+            const li = document.createElement('li');
+            const link = document.createElement('a');
+            link.href = baseURL + file;
+            link.textContent = file.replace('.pdf', '').replace(/_/g, ' ');
+            link.target = '_blank'; // Open in new tab
+            li.appendChild(link);
+            policyList.appendChild(li);
+        });
+
+        document.getElementById('policy').dataset.loaded = 'true';
+    }
+</script>
+
 </body>
 </html>
