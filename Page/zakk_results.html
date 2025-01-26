@@ -294,7 +294,7 @@
         const gallery = document.getElementById('picturesGallery');
         const folderPath = 'Page/images'; // GitHub directory for images
         const imageFiles = await fetchFileList(folderPath, '.jpg'); // Fetch .jpg files
-        const baseURL = 'https://concussed8.github.io/Nurse_Resource_App/Page/images/';
+        const baseURL = 'https://concussed8.github.io/Nurse_Resource_App/Page/Images/';
 
         imageFiles.forEach(file => {
             const img = document.createElement('img');
@@ -312,7 +312,7 @@
         const policyList = document.getElementById('policyList');
         const folderPath = 'Page/pdfs'; // GitHub directory for PDFs
         const pdfFiles = await fetchFileList(folderPath, '.pdf'); // Fetch .pdf files
-        const baseURL = 'https://concussed8.github.io/Nurse_Resource_App/Page/pdfs/';
+        const baseURL = 'https://concussed8.github.io/Nurse_Resource_App/Page/PDF/';
 
         pdfFiles.forEach(file => {
             const li = document.createElement('li');
