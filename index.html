@@ -48,7 +48,7 @@
     </style>
 </head>
 <body>
-    <h1>Find my Resources</h1>
+    <h1>Camera with QR/Barcode Scanner</h1>
     <video id="camera" autoplay></video>
     <br>
     <button id="scanButton">Scan QR/Barcode</button>
@@ -89,7 +89,16 @@
             try {
                 const barcodes = await barcodeDetector.detect(video);
                 if (barcodes.length > 0) {
-                    scanResult.textContent = barcodes[0].rawValue; // Display the first detected value
+                    const scannedData = barcodes[0].rawValue;
+                    scanResult.textContent = scannedData; // Display the detected value
+
+                    // Check if the scanned data matches the specific QR code
+                    if (scannedData === "mlapierre@hsnsudbury.ca") {
+                        // Redirect to the placeholder page
+                        window.location.href = "placeholder.html";
+                    } else {
+                        alert("Scanned QR code does not match the target.");
+                    }
                 } else {
                     scanResult.textContent = "No barcode detected. Try again.";
                 }
