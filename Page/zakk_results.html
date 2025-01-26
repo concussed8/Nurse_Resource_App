@@ -77,10 +77,34 @@
     <header>RESULTS</header>
 
     <div class="button-container">
-        <button class="btn pictures" onclick="location.href='pictures.html'">Pictures</button>
-        <button class="btn videos" onclick="location.href='videos.html'">Videos</button>
-        <button class="btn policies" onclick="location.href='policies.html'">Policies and Procedures</button>
-        <button class="btn location" onclick="location.href='location.html'">Location</button>
+        <button class="btn pictures" id="picturesButton">Pictures</button>
+        <button class="btn videos" id="videosButton">Videos</button>
+        <button class="btn policies" id="policiesButton">Policies and Procedures</button>
+        <button class="btn location" id="locationButton">Location</button>
     </div>
+
+    <script>
+        // Function to handle button clicks
+        function handleButtonClicks() {
+            document.getElementById('picturesButton').addEventListener('click', () => {
+                location.href = 'pictures.html';
+            });
+
+            document.getElementById('videosButton').addEventListener('click', () => {
+                location.href = 'videos.html';
+            });
+
+            document.getElementById('policiesButton').addEventListener('click', () => {
+                location.href = 'policies.html';
+            });
+
+            document.getElementById('locationButton').addEventListener('click', () => {
+                location.href = 'location.html';
+            });
+        }
+
+        // Attach event listeners on page load
+        window.onload = handleButtonClicks;
+    </script>
 </body>
 </html>
