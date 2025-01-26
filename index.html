@@ -11,7 +11,7 @@
         }
 
         video {
-            width: 50%; /* Adjustable size for the video frame */
+            width: 50%;
             max-width: 500px;
             border: 2px solid #000;
             border-radius: 8px;
@@ -22,17 +22,17 @@
             display: inline-block;
             margin-top: 20px;
             padding: 10px 20px;
-            background-color: #007BFF; /* Button background color */
-            color: white; /* Button text color */
+            background-color: #007BFF;
+            color: white;
             border: none;
             border-radius: 5px;
-            font-size: 1em; /* Font size for button text */
+            font-size: 1em;
             cursor: pointer;
             font-weight: bold;
         }
 
         button:hover {
-            background-color: #0056b3; /* Button hover effect */
+            background-color: #0056b3;
         }
 
         button:active {
@@ -64,11 +64,11 @@
         async function startCamera() {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({
-                    video: { facingMode: { exact: "environment" } } // Use rear-facing camera
+                    video: { facingMode: { exact: "environment" } }
                 });
                 video.srcObject = stream;
 
-                // Initialize the BarcodeDetector
+                // Initialize BarcodeDetector
                 if (window.BarcodeDetector) {
                     barcodeDetector = new BarcodeDetector({ formats: ["qr_code", "code_128", "ean_13"] });
                 } else {
@@ -90,12 +90,12 @@
                 const barcodes = await barcodeDetector.detect(video);
                 if (barcodes.length > 0) {
                     const scannedData = barcodes[0].rawValue;
-                    scanResult.textContent = scannedData; // Display the detected value
+                    scanResult.textContent = scannedData;
 
                     // Check if the scanned data matches the specific QR code
                     if (scannedData === "mlapierre@hsnsudbury.ca") {
-                        // Redirect to the placeholder page
-                        window.location.href = "placeholder.html";
+                        // Redirect to the specified page
+                        window.location.href = "./Page/zakk_results.html";
                     } else {
                         alert("Scanned QR code does not match the target.");
                     }
