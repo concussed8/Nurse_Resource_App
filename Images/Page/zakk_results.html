@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results</title>
+    <style>
+        /* Overall page styling */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4; /* Light background */
+            color: #333; /* Text color */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        /* Header styling */
+        header {
+            width: 100%; /* Full width */
+            background-color: #800000; /* Maroon background */
+            color: white; /* White text */
+            text-align: center;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
+            font-size: 2em; /* Font size */
+            font-weight: bold;
+            border-bottom: 5px solid #660000; /* Border below header */
+        }
+
+        /* Button container for vertical alignment */
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px; /* Space between buttons */
+            margin-top: 20px;
+        }
+
+        /* General button styling */
+        .btn {
+            width: 200px; /* Button width */
+            padding: 15px; /* Button padding */
+            font-size: 1.2em; /* Font size */
+            font-weight: bold; /* Bold text */
+            text-align: center;
+            color: white; /* Text color */
+            background-color: #007BFF; /* Default button color (blue) */
+            border: none; /* No border */
+            border-radius: 8px; /* Rounded corners */
+            cursor: pointer; /* Pointer on hover */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            transition: all 0.3s ease; /* Smooth hover transition */
+        }
+
+        /* Hover effect for buttons */
+        .btn:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+            transform: scale(1.05); /* Slightly larger */
+        }
+
+        /* Active button effect */
+        .btn:active {
+            background-color: #004080; /* Even darker blue on click */
+            transform: scale(0.95); /* Slightly smaller */
+        }
+
+        /* Customize individual buttons */
+        .btn.pictures {
+            background-color: #28a745; /* Green */
+        }
+
+        .btn.pictures:hover {
+            background-color: #218838; /* Darker green on hover */
+        }
+
+        .btn.videos {
+            background-color: #17a2b8; /* Cyan */
+        }
+
+        .btn.videos:hover {
+            background-color: #138496; /* Darker cyan on hover */
+        }
+
+        .btn.policy {
+            background-color: #ffc107; /* Yellow */
+            color: #333; /* Darker text for yellow */
+        }
+
+        .btn.policy:hover {
+            background-color: #e0a800; /* Darker yellow on hover */
+        }
+
+        .btn.location {
+            background-color: #dc3545; /* Red */
+        }
+
+        .btn.location:hover {
+            background-color: #c82333; /* Darker red on hover */
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        RESULTS
+    </header>
+
+    <!-- Button Section -->
+    <div class="button-container">
+        <button class="btn pictures">Pictures</button>
+        <button class="btn videos">Videos</button>
+        <button class="btn policy">Policy And Procedure</button>
+        <button class="btn location">Location</button>
+    </div>
+</body>
+</html>
