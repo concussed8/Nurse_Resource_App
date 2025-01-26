@@ -91,13 +91,14 @@
                 if (barcodes.length > 0) {
                     const scannedData = barcodes[0].rawValue;
                     scanResult.textContent = scannedData;
+// Check if the scanned data matches the specific QR code
+if (scannedData === "mlapierre@hsnsudbury.ca") {
+    // Redirect to the specified page
+    window.location.href = "https://concussed8.github.io/Nurse_Resource_App/Page/zakk_results.html";
+}else {
+           alert("Scanned QR code does not match the target.");
 
-                    // Check if the scanned data matches the specific QR code
-                    if (scannedData === "mlapierre@hsnsudbury.ca") {
-                        // Redirect to the specified page
-                        window.location.href = "./Page/zakk_results.html";
-                    } else {
-                        alert("Scanned QR code does not match the target.");
+                  
                     }
                 } else {
                     scanResult.textContent = "No barcode detected. Try again.";
