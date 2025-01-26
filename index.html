@@ -5,22 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Camera with QR/Barcode Scanner</title>
     <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+
         video {
-            width: 100%;
+            width: 50%; /* Adjustable size for the video frame */
             max-width: 500px;
             border: 2px solid #000;
             border-radius: 8px;
+            margin-top: 20px;
         }
+
         button {
+            display: inline-block;
             margin-top: 20px;
             padding: 10px 20px;
-            background-color: #007BFF;
-            color: white;
+            background-color: #007BFF; /* Button background color */
+            color: white; /* Button text color */
             border: none;
             border-radius: 5px;
-            font-size: 1em;
+            font-size: 1em; /* Font size for button text */
             cursor: pointer;
+            font-weight: bold;
         }
+
+        button:hover {
+            background-color: #0056b3; /* Button hover effect */
+        }
+
+        button:active {
+            background-color: #004080;
+        }
+
         #output {
             margin-top: 20px;
             font-size: 1.2em;
@@ -32,10 +50,15 @@
 <body>
     <h1>Camera with QR/Barcode Scanner</h1>
     <video id="camera" autoplay></video>
+    <br>
+    <button id="scanButton">Scan QR/Barcode</button>
     <div id="output">Scan result: <span id="scanResult">None</span></div>
+
     <script type="module">
         const video = document.getElementById("camera");
+        const scanButton = document.getElementById("scanButton");
         const scanResult = document.getElementById("scanResult");
+        let barcodeDetector;
 
         // Start the camera with rear-facing by default
         async function startCamera() {
@@ -45,40 +68,39 @@
                 });
                 video.srcObject = stream;
 
-                // Run the QR/barcode detection
-                scanBarcode(video);
+                // Initialize the BarcodeDetector
+                if (window.BarcodeDetector) {
+                    barcodeDetector = new BarcodeDetector({ formats: ["qr_code", "code_128", "ean_13"] });
+                } else {
+                    alert("BarcodeDetector API is not supported on your browser.");
+                }
             } catch (error) {
                 alert("Error accessing camera: " + error.message);
             }
         }
 
-        // Barcode scanning function
-        async function scanBarcode(videoElement) {
-            const BarcodeDetector = window.BarcodeDetector || null;
-            if (!BarcodeDetector) {
-                alert("BarcodeDetector API is not supported on your browser.");
+        // Function to manually scan QR/Barcode
+        async function scanBarcode() {
+            if (!barcodeDetector) {
+                alert("BarcodeDetector is not available.");
                 return;
             }
 
-            const barcodeDetector = new BarcodeDetector({ formats: ["qr_code", "code_128", "ean_13"] });
-
-            const detectBarcode = async () => {
-                try {
-                    const barcodes = await barcodeDetector.detect(videoElement);
-                    if (barcodes.length > 0) {
-                        scanResult.textContent = barcodes[0].rawValue; // Display the first detected value
-                        return; // Stop scanning after detecting the first barcode
-                    }
-                } catch (error) {
-                    console.error("Barcode detection failed: ", error);
+            try {
+                const barcodes = await barcodeDetector.detect(video);
+                if (barcodes.length > 0) {
+                    scanResult.textContent = barcodes[0].rawValue; // Display the first detected value
+                } else {
+                    scanResult.textContent = "No barcode detected. Try again.";
                 }
-
-                // Keep scanning
-                requestAnimationFrame(detectBarcode);
-            };
-
-            detectBarcode();
+            } catch (error) {
+                console.error("Barcode detection failed: ", error);
+                scanResult.textContent = "Error scanning QR/Barcode.";
+            }
         }
+
+        // Attach click event to the scan button
+        scanButton.addEventListener("click", scanBarcode);
 
         // Start the camera on page load
         startCamera();
