@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access Camera</title>
+    <style>
+        video {
+            width: 100%;
+            max-width: 500px;
+            border: 2px solid #000;
+            border-radius: 8px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+        button:disabled {
+            background-color: #CCC;
+        }
+    </style>
+</head>
+<body>
+    <h1>Camera Access</h1>
+    <video id="camera" autoplay></video>
+    <button id="captureBtn" disabled>Start Camera</button>
+
+    <script>
+        const video = document.getElementById("camera");
+        const captureBtn = document.getElementById("captureBtn");
+
+        async function startCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                video.srcObject = stream;
+                captureBtn.disabled = false; // Enable button if the camera starts successfully
+            } catch (error) {
+                alert("Error accessing camera: " + error.message);
+            }
+        }
+
+        captureBtn.addEventListener("click", () => {
+            // Action after enabling the camera, e.g., start video stream
+            alert("Camera is active!");
+        });
+
+        // Automatically try to start the camera on page load
+        startCamera();
+    </script>
+</body>
+</html>
