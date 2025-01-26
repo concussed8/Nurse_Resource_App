@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Access Camera</title>
+    <title>Camera with QR/Barcode Scanner</title>
     <style>
         video {
             width: 100%;
@@ -21,36 +21,66 @@
             font-size: 1em;
             cursor: pointer;
         }
-        button:disabled {
-            background-color: #CCC;
+        #output {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: green;
         }
     </style>
 </head>
 <body>
-    <h1>Camera Access</h1>
+    <h1>Camera with QR/Barcode Scanner</h1>
     <video id="camera" autoplay></video>
-    <button id="captureBtn" disabled>Start Camera</button>
-
-    <script>
+    <div id="output">Scan result: <span id="scanResult">None</span></div>
+    <script type="module">
         const video = document.getElementById("camera");
-        const captureBtn = document.getElementById("captureBtn");
+        const scanResult = document.getElementById("scanResult");
 
+        // Start the camera with rear-facing by default
         async function startCamera() {
             try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: { exact: "environment" } } // Use rear-facing camera
+                });
                 video.srcObject = stream;
-                captureBtn.disabled = false; // Enable button if the camera starts successfully
+
+                // Run the QR/barcode detection
+                scanBarcode(video);
             } catch (error) {
                 alert("Error accessing camera: " + error.message);
             }
         }
 
-        captureBtn.addEventListener("click", () => {
-            // Action after enabling the camera, e.g., start video stream
-            alert("Camera is active!");
-        });
+        // Barcode scanning function
+        async function scanBarcode(videoElement) {
+            const BarcodeDetector = window.BarcodeDetector || null;
+            if (!BarcodeDetector) {
+                alert("BarcodeDetector API is not supported on your browser.");
+                return;
+            }
 
-        // Automatically try to start the camera on page load
+            const barcodeDetector = new BarcodeDetector({ formats: ["qr_code", "code_128", "ean_13"] });
+
+            const detectBarcode = async () => {
+                try {
+                    const barcodes = await barcodeDetector.detect(videoElement);
+                    if (barcodes.length > 0) {
+                        scanResult.textContent = barcodes[0].rawValue; // Display the first detected value
+                        return; // Stop scanning after detecting the first barcode
+                    }
+                } catch (error) {
+                    console.error("Barcode detection failed: ", error);
+                }
+
+                // Keep scanning
+                requestAnimationFrame(detectBarcode);
+            };
+
+            detectBarcode();
+        }
+
+        // Start the camera on page load
         startCamera();
     </script>
 </body>
