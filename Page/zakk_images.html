@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pictures</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        header {
+            width: 100%;
+            background-color: #28a745; /* Green */
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 2em;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-bottom: 5px solid #218838;
+        }
+
+        .gallery {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .gallery img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <header>Pictures</header>
+
+    <div class="gallery" id="gallery">
+        <!-- Images will be loaded dynamically -->
+    </div>
+
+    <script>
+        async function fetchImages() {
+            const gallery = document.getElementById('gallery');
+            const folderPath = 'Images'; // Root directory for images
+            const apiUrl = `https://api.github.com/repos/concussed8/Nurse_Resource_App/contents/${folderPath}`;
+
+            try {
+                const response = await fetch(apiUrl);
+                const files = await response.json();
+
+                // Filter for image files (e.g., .jpg, .png, .jpeg)
+                const imageFiles = files.filter(file =>
+                    file.type === 'file' && /\.(jpg|jpeg|png|gif)$/i.test(file.name)
+                );
+
+                // Create and append image elements
+                imageFiles.forEach(file => {
+                    const img = document.createElement('img');
+                    img.src = file.download_url; // Use the raw file URL
+                    img.alt = file.name;
+                    gallery.appendChild(img);
+                });
+            } catch (error) {
+                console.error('Error fetching images:', error);
+                gallery.innerHTML = '<p>Failed to load images. Please try again later.</p>';
+            }
+        }
+
+        // Fetch and display images on page load
+        fetchImages();
+    </script>
+</body>
+</html>
