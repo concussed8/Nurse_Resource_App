@@ -45,12 +45,44 @@
         button:active {
             background-color: #004080;
         }
+        .search-bar-container {
+            margin-bottom: 20px; /* Space between search bar and camera view */
+            text-align: center;
+        }
+
+        .search-bar {
+            width: 100%;
+            max-width: 400px; /* Set max width for responsiveness */
+            height: 40px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            padding: 0 15px;
+            font-size: 16px;
+            color: #333;
+            background-color: #f4f4f4;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-bar::placeholder {
+            color: #aaa;
+            font-style: italic;
+        }
+
+        .search-bar:focus {
+            border-color: #007BFF;
+            background-color: #fff;
+        }
 
      
     </style>
 </head>
 <body>
     <h1>Nurse Resource App</h1>
+  <!-- Search Bar -->
+    <div class="search-bar-container">
+        <input type="text" class="search-bar" placeholder="SEARCH HERE">
+    </div>
     <video id="camera" autoplay></video>
     <br>
     <div id="output">Scan result: <span id="scanResult">None</span></div>
