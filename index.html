@@ -80,7 +80,7 @@
     <h1>Nurse Resource App</h1>
     <!-- Search Bar -->
     <div class="search-bar-container">
-        <input type="text" class="search-bar" placeholder="SEARCH HERE">
+        <input type="text" class="search-bar" id="searchBar" placeholder="SEARCH HERE">
     </div>
     <video id="camera" autoplay></video>
     <br>
@@ -91,6 +91,7 @@
         const video = document.getElementById("camera");
         const scanResult = document.getElementById("scanResult");
         const scanButton = document.getElementById("scanButton");
+        const searchBar = document.getElementById("searchBar");
         let barcodeDetector;
 
         // Supported barcode formats
@@ -107,10 +108,18 @@
             "aztec"          // Aztec
         ];
 
-        // Map scanned codes to URLs
+        // Map scanned codes and search terms to URLs
         const codeToUrlMap = {
             "mlapierre@hsnsudbury.ca": "https://concussed8.github.io/Nurse_Resource_App/Page/cvl_results.html",
             "0016410": "https://concussed8.github.io/Nurse_Resource_App/Page/cvl_results.html"
+        };
+
+        const searchTermsToUrlMap = {
+            "cvl": "https://concussed8.github.io/Nurse_Resource_App/Page/cvl_results.html",
+            "triple lumen": "https://concussed8.github.io/Nurse_Resource_App/Page/cvl_results.html",
+            "central line": "https://concussed8.github.io/Nurse_Resource_App/Page/cvl_results.html",
+            "cvc": "https://concussed8.github.io/Nurse_Resource_App/Page/cvl_results.html",
+            "central venous catheter": "https://concussed8.github.io/Nurse_Resource_App/Page/cvl_results.html"
         };
 
         // Start the camera with rear-facing by default
@@ -162,7 +171,20 @@
             }
         }
 
-        // Attach click event to the scan button
+        // Function to handle search input
+        function handleSearch(event) {
+            if (event.key === "Enter") {
+                const query = searchBar.value.toLowerCase().trim();
+                if (searchTermsToUrlMap[query]) {
+                    window.location.href = searchTermsToUrlMap[query];
+                } else {
+                    alert(`No results found for: ${query}`);
+                }
+            }
+        }
+
+        // Attach event listeners
+        searchBar.addEventListener("keydown", handleSearch);
         scanButton.addEventListener("click", scanBarcode);
 
         // Start the camera on page load
