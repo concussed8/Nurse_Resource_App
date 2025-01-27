@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pictures</title>
+    <title>Expandable Pictures</title>
     <style>
         body {
             margin: 0;
@@ -31,22 +31,63 @@
         .gallery {
             margin-top: 20px;
             display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            justify-content: center;
+            flex-direction: column;
+            gap: 20px; /* Spacing between rows */
+            width: 100%;
+            max-width: 800px; /* Limit gallery width */
         }
 
-        .gallery img {
-            width: 150px;
-            height: 150px;
-            object-fit: cover;
+        .gallery-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* Name left, image right */
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ccc;
             border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s, height 0.3s, padding 0.3s;
             cursor: pointer;
-            transition: transform 0.2s;
+            overflow: hidden; /* Prevent content overflow */
         }
 
-        .gallery img:hover {
-            transform: scale(1.1);
+        .gallery-item:hover {
+            transform: scale(1.02);
+        }
+
+        .gallery-item.expanded {
+            flex-direction: column; /* Stack name and image vertically */
+            height: auto; /* Dynamically adjust height */
+            padding: 20px; /* Add padding for expanded view */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .gallery-item.expanded .image-name {
+            display: none; /* Hide the name when expanded */
+        }
+
+        .gallery-item.expanded img {
+            width: 100%; /* Ensure full display */
+            height: auto; /* Maintain aspect ratio */
+            max-width: 500px; /* Optional: Limit the maximum width */
+            margin: 10px 0; /* Add margin between elements */
+        }
+
+        .gallery-item .image-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: left;
+            color: #333;
+            flex: 1; /* Take remaining space */
+        }
+
+        .gallery-item img {
+            width: 100px; /* Fixed width */
+            height: 100px; /* Fixed height */
+            object-fit: contain; /* Prevent cutting off the thumbnail */
+            border-radius: 8px;
+            margin-left: 20px;
+            transition: width 0.3s, height 0.3s;
         }
     </style>
 </head>
@@ -54,7 +95,7 @@
     <header>Pictures</header>
 
     <div class="gallery" id="gallery">
-        <!-- Images will be loaded dynamically -->
+        <!-- Images with names will be loaded dynamically -->
     </div>
 
     <script>
@@ -72,12 +113,29 @@
                     file.type === 'file' && /\.(jpg|jpeg|png|gif)$/i.test(file.name)
                 );
 
-                // Create and append image elements
+                // Create and append items with image name and thumbnail
                 imageFiles.forEach(file => {
+                    const galleryItem = document.createElement('div');
+                    galleryItem.classList.add('gallery-item');
+
+                    // Create and append the name
+                    const imageName = document.createElement('div');
+                    imageName.classList.add('image-name');
+                    imageName.textContent = file.name;
+                    galleryItem.appendChild(imageName);
+
+                    // Create and append the thumbnail
                     const img = document.createElement('img');
                     img.src = file.download_url; // Use the raw file URL
                     img.alt = file.name;
-                    gallery.appendChild(img);
+                    galleryItem.appendChild(img);
+
+                    // Add click event to toggle expansion
+                    galleryItem.addEventListener('click', () => {
+                        galleryItem.classList.toggle('expanded');
+                    });
+
+                    gallery.appendChild(galleryItem);
                 });
             } catch (error) {
                 console.error('Error fetching images:', error);
