@@ -85,7 +85,7 @@
     </div>
     <video id="camera" autoplay></video>
     <br>
-    <div id="output">Scan result: <span id="scanResult">None</span></div>
+    <div id="output">Results: <span id="scanResult">None</span></div>
     <button id="scanButton">SCAN QR CODE <br>PRESS HERE</button>
     
 
@@ -137,7 +137,7 @@ if (scannedData === "mlapierre@hsnsudbury.ca") {
                   
                     }
                 } else {
-                    scanResult.textContent = "No barcode detected. Try again.";
+                    scanResult.textContent = "No barcode detected.";
                 }
             } catch (error) {
                 console.error("Barcode detection failed: ", error);
